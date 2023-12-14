@@ -1,0 +1,109 @@
+<template>
+  <div class="slds-theme_default">
+
+    <!--new buttton-->
+    <lightning-card title="Resource Absence" icon-name="standard:resource_absence">
+       <lightning-button
+       label="New"
+       variant="brand"
+       onclick={handleClick}> </lightning-button>
+      </lightning-card>
+
+        <!--if the button was clicked-->
+        <template if:true={isButtonClicked}>
+          <div style="height:50px;">
+             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open  slds-modal_medium">
+             <div class="slds-modal__container">
+             <lightning-record-edit-form object-api-name="ResourceAbsence" density="comfy"  >
+
+              <!--header-->
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCloseModal}>
+                   <lightning-icon icon-name="utility:close" variant="inverse" alternative-text="Close" size="medium">
+                   </lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Resource Absence</h2>
+              </header>
+
+               <!--section part-->
+                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                   <div class="slds-text-heading_small slds-text-align_center">
+
+                    <!--Resource field-->
+                  <lightning-input-field field-name="ResourceId">
+                  <lightning-card title="resource" >
+                    <div class="slds-var-p-around_x-small">
+                      <lightning-input type="search" value={resourceName} onchange={handleChange} placeholder="search..."></lightning-input>
+                    </div>
+                    <div if:true={messageResult} class="slds-var-p-horizontal_small">
+                      <p class="slds-text-color_error">No Result Found</p>
+                    </div>
+                     <template if:true={showSearchValue}>
+                      <div class="slds-var-p-horizontal_small">
+                         <ul class="slds-list_vertical-space">
+                          <template for:each={resourceList} for:item="resobj">
+                              <li key={resobj.Id} onclick={handleparentsection} data-value={resobj.Id} data-label={resobj.Name} class="slds-var-p-around_small slds-text-link" style="cursor:pointer;">
+                                 {resobj.Name}
+                              </li>
+                         </template>
+                         </ul>
+            
+                     </div>
+                     </template>
+                     </lightning-card>
+                     </lightning-input-field>
+
+                     <!--Type field-->
+                 <lightning-input-field field-name="Type">
+                      <lightning-combobox
+                               name="Vacation"
+                               label="Type"
+                               value={value}
+                               options={options}
+                               onchange={handleChange} >
+                      </lightning-combobox>
+                 </lightning-input-field>
+
+                <!--Start time field-->
+                <lightning-input-field field-name="Start" type="date" label="Start Date" ></lightning-input-field>
+
+                <!--End time field-->
+                <lightning-input-field field-name="End" type="date" label="End Date" ></lightning-input-field>
+
+                <!--address field-->
+                <lightning-input-address  address-label="Address"
+                street-label="Address"
+                city-label="City"
+                country-label="Country"
+                province-label="Province"
+                postal-code-label="PostalCode"
+               ></lightning-input-address>
+              </div>
+            </div>
+
+             <!--Footer part-->
+              <footer>
+                <!--Buttons -->
+                <div class="slds-var-m-top_medium">
+                    <lightning-button-group class="slds-modal__footer">
+                        <lightning-button type="cancel" label="Cancel" value={cancelModal}  variant="brand"></lightning-button>
+                        &nbsp;&nbsp;
+
+                        <lightning-button type="submit" label="Save"  variant="brand"  ></lightning-button>
+                        
+                    </lightning-button-group>
+                    
+                </div>
+              </footer>
+              
+            </lightning-record-edit-form>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+
+      </div>
+    </template>
+
+  </div>
+</template>
